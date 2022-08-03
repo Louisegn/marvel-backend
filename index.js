@@ -9,8 +9,6 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", async (req, res) => {
-  //   console.log("route /");
-  //   res.status(200).json({ message: "route /" });
   console.log(process.env.API_KEY);
   try {
     const response = await axios.get(
@@ -27,6 +25,6 @@ app.all("*", (req, res) => {
   res.status(404).json({ message: "route not found !" });
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Server has started !");
 });
