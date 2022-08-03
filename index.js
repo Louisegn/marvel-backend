@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: "coucou" });
+  res.json({ message: "coucou ya rien ici :p" });
 });
 
 app.get("/comics", async (req, res) => {
@@ -39,6 +39,17 @@ app.get("/character/:id", async (req, res) => {
   try {
     const response = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/character/${req.params.id}?apiKey=${process.env.API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+app.get("/comics/:id", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comics/${req.params.id}?apiKey=${process.env.API_KEY}`
     );
     res.json(response.data);
   } catch (error) {
