@@ -35,6 +35,17 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+app.get("/character/:id", async (req, res) => {
+  try {
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/character/${req.params.id}?apiKey=${process.env.API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 app.all("*", (req, res) => {
   console.log("route not found");
   res.status(404).json({ message: "route not found !" });
