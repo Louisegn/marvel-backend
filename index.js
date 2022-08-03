@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({ message: error });
+  res.json({ message: "coucou" });
 });
 
 app.get("/comics", async (req, res) => {
