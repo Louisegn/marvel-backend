@@ -14,7 +14,7 @@ app.get("/", async (req, res) => {
     const response = await axios.get(
       `https://lereacteur-marvel-api.herokuapp.com/comics?apiKey=${process.env.API_KEY}`
     );
-    return res.json(response.data);
+    res.json(response.data);
   } catch (error) {
     console.log(error.message);
   }
@@ -25,6 +25,6 @@ app.all("*", (req, res) => {
   res.status(404).json({ message: "route not found !" });
 });
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server has started !");
 });
