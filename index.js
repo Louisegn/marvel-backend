@@ -3,10 +3,13 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+mongoose.connect("mongodb://localhost:27017/marvel-project");
 
 app.get("/", (req, res) => {
   res.status(500).json("coucou ya rien ici :p");
@@ -57,6 +60,9 @@ app.get("/comics/:id", async (req, res) => {
     console.log(error.message);
   }
 });
+
+const userRoutes = require("./routes/user");
+app.use(userRoutes);
 
 app.all("*", (req, res) => {
   console.log("route not found");
