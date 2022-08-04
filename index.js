@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/marvel-project");
+mongoose.connect(process.env.DATABASE_URI);
 
 app.get("/", (req, res) => {
   res.status(500).json("coucou ya rien ici :p");
