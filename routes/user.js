@@ -19,12 +19,12 @@ router.post("/user/signup", async (req, res) => {
       } else {
         const salt = uid2(16);
         const hash = SHA256(password + salt).toString(encBase64);
-        // const token = uid2(16);
+        const token = uid2(16);
 
         const newUser = new User({
           username: username,
           email: email,
-          // token: token,
+          token: token,
           salt: salt,
           hash: hash,
         });
@@ -34,7 +34,7 @@ router.post("/user/signup", async (req, res) => {
           _id: newUser._id,
           email: newUser.email,
           username: newUser.username,
-          // token: newUser.token,
+          token: newUser.token,
         });
       }
     } else {
@@ -60,7 +60,7 @@ router.post("/user/login", async (req, res) => {
       console.log("coucou");
       res.json({
         id: user.id,
-        // token: user.token,
+        token: user.token,
         // accout: {
         //   username: user.account.username,
         // },
