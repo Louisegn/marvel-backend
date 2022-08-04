@@ -62,6 +62,7 @@ app.get("/comics/:id", async (req, res) => {
 });
 
 const userRoutes = require("./routes/user");
+
 app.use(userRoutes);
 
 app.all("*", (req, res) => {

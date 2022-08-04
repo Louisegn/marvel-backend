@@ -50,9 +50,14 @@ router.post("/user/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne(email);
+    console.log(email, password);
+    const user = await User.findOne({ email: email });
+    console.log(user);
+    console.log(password);
     const newHash = SHA256(password + user.salt).toString(encBase64);
+    console.log(newHash);
     if (user.hash === newHash) {
+      console.log("coucou");
       res.json({
         id: user.id,
         // token: user.token,
@@ -64,7 +69,8 @@ router.post("/user/login", async (req, res) => {
       res.status(400).json("noooop");
     }
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    // res.status(400).json({ message: error.message });
+    res.status(400).json({ message: "ehhh nooooop" });
   }
 });
 
