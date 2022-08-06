@@ -7,6 +7,16 @@ const encBase64 = require("crypto-js/enc-base64");
 
 const User = require("../models/User");
 
+router.post("/user", async (req, res) => {
+  try {
+    const { token } = req.body;
+    const user = await User.findOne({ token: token });
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ message: "ehhh nooooop" });
+  }
+});
+
 router.post("/user/signup", async (req, res) => {
   console.log("route signup");
   const { username, email, password } = req.body;
