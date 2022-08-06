@@ -89,13 +89,13 @@ router.post("/user/login", async (req, res) => {
 
 router.post("/user/favorites", async (req, res) => {
   try {
-    const { userId, comicsId, charaId } = req.body;
+    const { userId, comicId, charaId } = req.body;
     console.log(userId);
     const user = await User.findOne({ _id: userId });
-    if (comicsId) {
-      const i = user.favoritesComics.indexOf(comicsId);
+    if (comicId) {
+      const i = user.favoritesComics.indexOf(comicId);
       if (i === -1) {
-        user.favoritesComics.push(comicsId);
+        user.favoritesComics.push(comicId);
       } else {
         user.favoritesComics.splice(i, 1);
       }
