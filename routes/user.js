@@ -58,13 +58,16 @@ router.post("/user/login", async (req, res) => {
     console.log(newHash);
     if (user.hash === newHash) {
       console.log("coucou");
-      res.json({
-        id: user.id,
-        token: user.token,
+      res.json(
+        user
+        // {
+        // id: user.id,
+        // token: user.token,
         // accout: {
         //   username: user.account.username,
         // },
-      });
+        // }
+      );
     } else {
       res.status(400).json("noooop");
     }
