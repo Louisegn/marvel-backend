@@ -74,4 +74,33 @@ router.post("/user/login", async (req, res) => {
   }
 });
 
+router.post("/user/favorites", async (req, res) => {
+  try {
+    const { userId, comicsId, charaId } = req.body;
+    console.log(userId);
+    const user = await User.findOne({ _id: userId });
+    if (comicsId) {
+      const i = user.favoritesComics.indexOf(comicsId);
+      if (i === -1) {
+        user.favoritesComics.push(comicsId);
+      } else {
+        user.favoritesComics.splice(i, 1);
+      }
+      await user.save();
+      res.json(user);
+    } else if (charaId) {
+      const i = user.favoritesChara.indexOf(charaId);
+      if (i === -1) {
+        user.favoritesChara.push(charaId);
+      } else {
+        user.favoritesChara.splice(i, 1);
+      }
+      await user.save();
+      res.json(user);
+    }
+  } catch (error) {
+    res.status(400).json("noooop");
+  }
+});
+
 module.exports = router;
