@@ -39,6 +39,7 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+//route inutile
 app.get("/character/:id", async (req, res) => {
   try {
     const response = await axios.get(
