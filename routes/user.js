@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
+const axios = require("axios");
 
 const uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
@@ -91,8 +92,10 @@ router.post("/user/login", async (req, res) => {
 router.post("/user/favorites", async (req, res) => {
   try {
     const { userId, comicId, charaId } = req.body;
-    console.log(userId);
+
+    // console.log(userId);
     const user = await User.findOne({ _id: userId });
+    // console.log(user);
     if (comicId) {
       const i = user.favoritesComics.indexOf(comicId);
       if (i === -1) {
@@ -103,17 +106,27 @@ router.post("/user/favorites", async (req, res) => {
       await user.save();
       res.json(user);
     } else if (charaId) {
-      const i = user.favoritesChara.indexOf(charaId);
-      if (i === -1) {
-        user.favoritesChara.push(charaId);
+      let i = 0;
+      for (i; i < user.favoritesChara.length; i++) {
+        if (user.favoritesChara._id === charaId) {
+          break;
+        }
+      }
+      console.log(i);
+      if (i === 0) {
+        const response = await axios.get(
+          `https://lereacteur-marvel-api.herokuapp.com/character/${charaId}?apiKey=${process.env.API_KEY}`
+        );
+        console.log("hello");
+        user.favoritesChara.push(response.data);
       } else {
-        user.favoritesChara.splice(i, 1);
+        user.favoritesChara.splice(i - 1, 1);
       }
       await user.save();
       res.json(user);
     }
   } catch (error) {
-    res.status(400).json("noooop");
+    res.status(400).json(error.message);
   }
 });
 
