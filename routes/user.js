@@ -93,12 +93,22 @@ router.post("/user/favorites", async (req, res) => {
   try {
     const { userId, comicId, charaId } = req.body;
 
-    // console.log(userId);
+    // console.log(comicId);
     const user = await User.findOne({ _id: userId });
     // console.log(user);
     if (comicId) {
-      const i = user.favoritesComics.indexOf(comicId);
-      if (i === -1) {
+      let x = -1;
+      let i = 0;
+      for (i; i < user.favoritesComics.length; i++) {
+        if (user.favoritesComics[i]._id === comicId._id) {
+          x = i;
+          break;
+        }
+      }
+
+      console.log(i);
+      // const i = user.favoritesComics.indexOf(comicId);
+      if (x === -1) {
         user.favoritesComics.push(comicId);
       } else {
         user.favoritesComics.splice(i, 1);
@@ -106,21 +116,40 @@ router.post("/user/favorites", async (req, res) => {
       await user.save();
       res.json(user);
     } else if (charaId) {
+      // let i = 0;
+      // for (i; i < user.favoritesChara.length; i++) {
+      //   if (user.favoritesChara._id === charaId) {
+      //     break;
+      //   }
+      // }
+      // console.log(i);
+      // if (i === 0) {
+      //   const response = await axios.get(
+      //     `https://lereacteur-marvel-api.herokuapp.com/character/${charaId}?apiKey=${process.env.API_KEY}`
+      //   );
+      //   console.log("hello");
+      //   user.favoritesChara.push(response.data);
+      // } else {
+      //   user.favoritesChara.splice(i - 1, 1);
+      // }
+      // await user.save();
+      // res.json(user);
+
+      let x = -1;
       let i = 0;
       for (i; i < user.favoritesChara.length; i++) {
-        if (user.favoritesChara._id === charaId) {
+        if (user.favoritesChara[i]._id === charaId._id) {
+          x = i;
           break;
         }
       }
+
       console.log(i);
-      if (i === 0) {
-        const response = await axios.get(
-          `https://lereacteur-marvel-api.herokuapp.com/character/${charaId}?apiKey=${process.env.API_KEY}`
-        );
-        console.log("hello");
-        user.favoritesChara.push(response.data);
+      // const i = user.favoritesComics.indexOf(comicId);
+      if (x === -1) {
+        user.favoritesChara.push(charaId);
       } else {
-        user.favoritesChara.splice(i - 1, 1);
+        user.favoritesChara.splice(i, 1);
       }
       await user.save();
       res.json(user);
